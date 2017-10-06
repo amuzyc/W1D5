@@ -3,6 +3,7 @@ require_relative '../PolyTreeNode/lib/00_tree_node.rb'
 class KnightPathFinder
   def initialize(starting_position)
     @starting_position = starting_position
+    @move_tree = nil
   end
 
  def self.new_moves(starting_position)
@@ -18,6 +19,7 @@ class KnightPathFinder
  end
 
  def build_move_tree
+
    root = PolyTreeNode.new(@starting_position)
    q = [root]
    visited_pos = []
@@ -32,8 +34,35 @@ class KnightPathFinder
        end
      end
    end
-   root
+   @move_tree = root
  end
+
+  def find_path(end_pos)
+    # def dfs(target_value)
+    #   return self if target_value == self.value
+    #   @children.each do |child|
+    #     res = child.dfs(target_value)
+    #     return res if !res.nil?
+    #   end
+    #   nil
+    # end
+    trace_path_back(@move_tree.dfs(end_pos))
+
+
+  end
+
+  def trace_path_back(ending_node)
+    arr = []
+    curr = ending_node
+    until curr== nil do
+      arr << curr.value
+      curr = curr.parent
+    end
+    arr
+  end
+
+
+
 
 
 
